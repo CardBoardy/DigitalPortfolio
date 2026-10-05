@@ -1,0 +1,112 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700;900&display=swap');
+
+body {
+  margin: 0;
+  font-family: 'Montserrat', sans-serif;
+  background-color: #382f2f;
+}
+
+header {
+  margin-top: 3em;
+  text-align: center;
+  color: white;
+}
+
+header h1 {
+  font-size: 2em;
+  font-weight: 700; /* Montserrat Bold */
+}
+
+/* support both <b1> tag and .b1 class — centers the element and underlines its contents */
+body b1, .b1 {
+  display: block;
+  font-size: 1.2em;
+  font-weight: 400;
+  color: #ffffff;
+  text-align: center;
+  margin: 0.5rem auto;
+  text-decoration: underline;
+}
+
+/* make the real <button> look like the old “link”/text element */
+button.b1,
+#learn-more {
+  background: none;
+  border: none;
+  padding: 0;
+  font: inherit;
+  font-size: 1.2em;       /* use same font as surrounding text */
+  color: #ffffff;      /* already white from .b1 */
+  text-decoration: underline; /* reinforce underline */
+  cursor: pointer;
+}
+
+button.b1:focus,
+#learn-more:focus {
+  outline: none;       /* optional, remove focus ring if you don’t want it */
+}
+
+/* safe stacking: canvas behind content, no body/background changes */
+#container3D {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+}
+
+#container3D canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 0;
+}
+
+header, main {
+  position: relative;
+  z-index: 2; /* content above canvas */
+}
+
+header h1,
+body b1, .b1 {
+  position: relative;
+  z-index: 3;
+}
+
+/* full-screen white fade overlay used for intro transition */
+.fade-overlay {
+  position: fixed;
+  inset: 0; /* top:0; right:0; bottom:0; left:0 */
+  background: #ffffff;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 9999;
+  transition: opacity 600ms ease;
+}
+
+.fade-overlay.visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.back-button {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  background: none;
+  border: 1px solid #ffffff;
+  color: #ffffff;
+  padding: 10px 15px;
+  font-family: inherit;
+  font-size: 1em;
+  cursor: pointer;
+  z-index: 10;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.back-button.visible {
+  opacity: 1;
+}
+
