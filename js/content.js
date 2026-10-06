@@ -4,16 +4,17 @@
 export const profile = {
   name: "Dillon Woods",
   tagline: "computer engineering student @ the university of kansas",
-  email: "dillonw1128@gmail.com",
+  // Split so spam bots scanning the page source don't find a ready-made address.
+  email: ["dillonw1128", "gmail.com"].join("@"),
   linkedin: "https://www.linkedin.com/in/dillon-woods-ce/",
   github: "https://github.com/CardBoardy",
 };
 
 const skills = [
-  { group: "Programming", items: ["Python", "C / C++", "JavaScript", "HTML & CSS", "Flask", "Pygame", "three.js"] },
-  { group: "Hardware & Embedded", items: ["Raspberry Pi", "Arduino", "UART", "I2C", "Servo control", "Wireless networking", "Hardware troubleshooting & repair"] },
-  { group: "Design & Tools", items: ["Fusion 360", "3D printing", "Google Gemini API", "Speech-to-text"] },
-  { group: "People", items: ["Teaching & tutoring", "Training new team members", "Team leadership"] },
+  { group: "Languages", items: ["Python", "C / C++", "JavaScript", "HTML & CSS"] },
+  { group: "Hardware & Embedded", items: ["Raspberry Pi", "Arduino", "UART & I2C", "Servo & motor control", "Embedded Linux", "Wireless networking", "Computer repair & diagnostics"] },
+  { group: "Tools", items: ["Git & GitHub", "Fusion 360", "3D printing", "Pygame", "Gemini API"] },
+  { group: "Leadership", items: ["Teaching & mentoring", "Leading teams", "Building under deadlines"] },
 ];
 
 const projects = [
@@ -244,7 +245,7 @@ export const apps = [
         </article>
       `).join("")}
       <p class="muted">
-        The desktop is a fan-made homage to Windows XP and isn't affiliated with or endorsed by
+        © ${new Date().getFullYear()} ${profile.name}. The desktop is a fan-made homage to Windows XP and isn't affiliated with or endorsed by
         Microsoft. Windows and the original "Bliss" photo by Charles O'Rear belong to Microsoft.
       </p>
     `,
