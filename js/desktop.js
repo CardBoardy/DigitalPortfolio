@@ -211,7 +211,7 @@ function makeResizable(el, handle, id) {
 // ---------------------------------------------------------------------------
 // Desktop icons
 // ---------------------------------------------------------------------------
-for (const app of apps) {
+for (const app of apps.filter((a) => a.showOnDesktop !== false)) {
   const button = document.createElement("button");
   button.type = "button";
   button.className = "desktop-icon";
@@ -227,6 +227,7 @@ let onLogOff = () => {};
 
 startMenu.querySelector(".start-user-name").textContent = profile.name;
 startMenu.querySelector(".start-apps").innerHTML = apps
+  .filter((app) => app.showOnDesktop !== false)
   .map((app) => `<li><button type="button" data-app="${app.id}">${icons[app.icon]}<span>${app.title}</span></button></li>`)
   .join("");
 startMenu.querySelector(".start-links").innerHTML = [

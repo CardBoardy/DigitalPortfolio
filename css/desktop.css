@@ -552,7 +552,8 @@
 
 .start-footer {
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
+  align-items: center;
   padding: 6px 10px;
   background: linear-gradient(#4282d6, #3b85e0 10%, #418ae3 50%, #2b6fdb 90%, #1f5ec7);
 }
@@ -571,6 +572,19 @@
   cursor: pointer;
 }
 
+.credits-button {
+  padding: 4px 8px;
+  border: none;
+  border-radius: 3px;
+  background: none;
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  color: #dce8fb;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.credits-button:hover,
 .log-off:hover {
   background: rgba(255, 255, 255, 0.2);
 }

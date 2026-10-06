@@ -105,6 +105,33 @@ const LINK_BUTTONS = {
 const linkButton = ({ type, url }) =>
   `<a class="link-button ${type}" href="${url}" target="_blank" rel="noopener">${LINK_BUTTONS[type].icon}${LINK_BUTTONS[type].label}</a>`;
 
+// Third-party assets used on the site, shown in the Credits window (Start menu → Credits).
+const credits = [
+  {
+    work: "Hand-painted Low Poly Computer",
+    workUrl: "https://sketchfab.com/3d-models/hand-painted-low-poly-computer-c4e5d67781ca4bba960673f67a7cef30",
+    author: "NoodleBaguette",
+    authorUrl: "https://sketchfab.com/NoodleBaguette",
+    license: "CC BY 4.0",
+    licenseUrl: "https://creativecommons.org/licenses/by/4.0/",
+    note: "The 3D computer on the landing page. Used unmodified.",
+  },
+  {
+    work: "Windows XP Wallpaper (pixel art)",
+    workUrl: "https://www.reddit.com/r/PixelArt/comments/che0as/oc_windows_xp_wallpaper/",
+    author: "u/okkoinu",
+    authorUrl: "https://www.reddit.com/user/okkoinu/",
+    note: "The desktop wallpaper, a pixel-art take on the classic \"Bliss\".",
+  },
+  {
+    work: "Lexend & Roboto Mono fonts",
+    workUrl: "https://fonts.google.com/",
+    author: "via Google Fonts",
+    license: "SIL Open Font License",
+    licenseUrl: "https://openfontlicense.org/",
+  },
+];
+
 const tags = (items) => `<ul class="tags">${items.map((i) => `<li>${i}</li>`).join("")}</ul>`;
 const link = (url, label) => `<a href="${url}" target="_blank" rel="noopener">${label}</a>`;
 
@@ -195,6 +222,31 @@ export const apps = [
         <li><span>LinkedIn</span>${link(profile.linkedin, "dillon-woods-ce")}</li>
         <li><span>GitHub</span>${link(profile.github, "CardBoardy")}</li>
       </ul>
+    `,
+  },
+  {
+    id: "credits",
+    title: "Credits",
+    icon: "credits",
+    showOnDesktop: false, // opened from the Start menu instead
+    size: { width: 480, height: 460 },
+    render: () => `
+      <h2>credits</h2>
+      <p>This site uses a few great things made by other people:</p>
+      ${credits.map((c) => `
+        <article class="entry">
+          <h3>${link(c.workUrl, c.work)}</h3>
+          <p class="meta">
+            ${c.authorUrl ? `by ${link(c.authorUrl, c.author)}` : c.author}
+            ${c.license ? `· ${link(c.licenseUrl, c.license)}` : ""}
+          </p>
+          ${c.note ? `<p>${c.note}</p>` : ""}
+        </article>
+      `).join("")}
+      <p class="muted">
+        The desktop is a fan-made homage to Windows XP and isn't affiliated with or endorsed by
+        Microsoft. Windows and the original "Bliss" photo by Charles O'Rear belong to Microsoft.
+      </p>
     `,
   },
   {
