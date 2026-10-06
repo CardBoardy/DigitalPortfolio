@@ -3,13 +3,17 @@
   --text-muted: #777777;
   --accent: #2b7de9;
   --ink: #333333;
-  --night: #121830;
-  --night-glow: #34477e;
-  --landing-text: #eef2ff;
-  --landing-muted: #aeb9dc;
-  --landing-accent: #2b7de9;
+  --wall-top: #2a1f26;     /* evening wall, warm and dim */
+  --wall-bottom: #4a332e;
+  --wood: #8a5a3a;
+  --wood-dark: #5e3a24;
+  --glow: rgba(255, 190, 120, 0.35);
   --font-body: 'Lexend', system-ui, sans-serif;
   --font-mono: 'Roboto Mono', ui-monospace, monospace;
+  --font-marker: 'Gaegu', 'Patrick Hand', cursive;
+  --font-hand: 'Patrick Hand', 'Comic Sans MS', cursive;
+  --pen-blue: #2456c9;
+  --pencil: #3b3632;
 }
 
 *,
@@ -22,47 +26,343 @@
   display: none !important;
 }
 
+
 body {
   margin: 0;
   font-family: var(--font-body);
   color: var(--text);
-  background: var(--night);
+  background: var(--wall-top);
   overflow: hidden; /* both views are full-screen */
 }
 
 /* ===================== Landing ===================== */
-/* Dark night-blue room with a soft spotlight behind the PC */
+/* The "real world": a cozy bedroom in the evening, lit by string lights and a
+   desk lamp. Deliberately different from the bright blue XP desktop, so
+   stepping into the computer feels like going somewhere new. */
 #landing {
   position: fixed;
   inset: 0;
-  color: var(--landing-text);
-  background: radial-gradient(ellipse 60% 55% at 50% 62%, var(--night-glow), var(--night) 100%);
+  user-select: none; /* dragging to spin the PC shouldn't highlight text */
+  background:
+    radial-gradient(ellipse 90% 30% at 50% 0%, var(--glow), transparent 70%), /* lights washing the wall */
+    linear-gradient(var(--wall-top), var(--wall-bottom));
 }
+
+.room {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+/* Warm pool of lamp light around the desk and post-it */
+.wall-glow {
+  position: absolute;
+  left: 50%;
+  top: 45%;
+  width: 120vmax;
+  height: 90vmax;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(ellipse at center, rgba(255, 176, 102, 0.28), transparent 55%);
+}
+
+/* String lights draped along the top of the wall (built by room.js) */
+.string-lights {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 5; /* hang in front of everything */
+  width: 100%;
+  height: 56px; /* matches LIGHTS_HEIGHT in room.js; bulbs keep the same size at any width */
+  overflow: visible;
+}
+
+.string-lights path,
+.string-lights line {
+  fill: none;
+  stroke: #1f1714;
+  stroke-width: 1.6;
+}
+
+/* Soft halo behind each bulb */
+.bulb .halo {
+  fill: url(#bulb-halo);
+  animation: halo 3s ease-in-out var(--delay) infinite;
+}
+
+.bulb ellipse {
+  stroke: #e9c98f;
+  stroke-width: 0.8;
+  filter: drop-shadow(0 0 3px rgba(255, 214, 140, 0.95));
+}
+
+@keyframes halo {
+  0%, 100% { opacity: 0.75; }
+  50% { opacity: 1; }
+}
+
+/* Little sparkles that pop off the bulbs (spawned by room.js) */
+.light-sparkle {
+  position: absolute;
+  z-index: 5;
+  width: var(--size);
+  height: var(--size);
+  margin: calc(var(--size) / -2) 0 0 calc(var(--size) / -2);
+  animation: light-sparkle 0.9s ease-out forwards;
+}
+
+.light-sparkle svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  fill: #ffd98a;
+  filter: drop-shadow(0 0 2px #fff) drop-shadow(0 0 4px rgba(255, 200, 100, 0.9));
+}
+
+@keyframes light-sparkle {
+  0% { opacity: 0; transform: translate(0, 0) scale(0) rotate(0deg); }
+  30% { opacity: 1; transform: translate(calc(var(--dx) * 0.4), calc(var(--dy) * 0.4)) scale(1) rotate(45deg); }
+  100% { opacity: 0; transform: translate(var(--dx), var(--dy)) scale(0.3) rotate(90deg); }
+}
+
+/* Wall decor (cork board, framed art, post-it). main.js places these on the 3D
+   wall and scales them with the scene (via --wall-scale), so the whole room
+   keeps the same proportions on any screen shape. Hidden until placed. */
+.corkboard,
+.wall-art,
+.intro {
+  visibility: hidden;
+}
+
+#landing.ready .corkboard,
+#landing.ready .wall-art,
+#landing.ready .intro {
+  visibility: visible;
+}
+
+/* Cork board hanging on the wall */
+.corkboard {
+  position: absolute;
+  border: calc(12px * var(--wall-scale, 1)) solid #5e3d26;
+  border-radius: 8px;
+  background:
+    radial-gradient(ellipse at 50% 40%, rgba(255, 200, 140, 0.25), transparent 70%), /* lamp light on the cork */
+    radial-gradient(circle, rgba(60, 30, 10, 0.4) 1px, transparent 1.6px) 0 0 / 9px 9px,
+    radial-gradient(circle, rgba(255, 220, 170, 0.18) 1px, transparent 1.6px) 4px 5px / 11px 11px,
+    #a5744a;
+  box-shadow: inset 0 3px 14px rgba(30, 15, 5, 0.55), 0 10px 24px rgba(10, 5, 0, 0.45);
+}
+
+/* Framed art on the wall either side of the cork board */
+.wall-art {
+  position: absolute;
+  filter: drop-shadow(0 8px 10px rgba(10, 5, 0, 0.45));
+}
+
+.wall-art.left {
+  transform: translate(-50%, -50%) rotate(-2deg);
+}
+
+.wall-art.right {
+  transform: translate(-50%, -50%) rotate(2deg);
+}
+
+/* Small decorative notes pinned around the post-it */
+.pinned-note {
+  position: absolute;
+  padding: 0.55em 0.8em;
+  font-family: var(--font-hand);
+  font-size: calc(15px * var(--wall-scale, 1));
+  line-height: 1.3;
+  color: #4a3f36;
+  box-shadow: 2px 4px 8px rgba(20, 10, 0, 0.4);
+}
+
+.pinned-note::before {
+  content: '';
+  position: absolute;
+  top: -5px;
+  left: 50%;
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #fff 0 15%, var(--pin, #ef6f6c) 30%);
+  transform: translateX(-50%);
+  box-shadow: 1px 2px 2px rgba(0, 0, 0, 0.3);
+}
+
+.pinned-note.pink {
+  top: 14%;
+  background: #f4c2cf;
+  transform: rotate(-6deg);
+  --pin: #6c9ef0;
+}
+
+.pinned-note.blue {
+  top: 18%;
+  background: #c9dcf0;
+  transform: rotate(5deg);
+  --pin: #f2b84b;
+}
+
 
 #container3D {
   position: absolute;
   inset: 0;
+  z-index: 2; /* the desk and PC are always in front of the wall and its notes */
   overflow: hidden;
+  pointer-events: none; /* clicks reach the post-it button; main.js handles drags on the landing */
 }
 
 #container3D canvas {
   display: block;
 }
 
+/* Steam rising from the coffee mug (placed by main.js above the 3D mug) */
+.steam {
+  position: absolute;
+  z-index: 3;
+  visibility: hidden; /* until main.js has placed it */
+  pointer-events: none;
+  transform: translate(-50%, -100%);
+  overflow: visible;
+}
+
+.steam path {
+  fill: none;
+  stroke: rgba(255, 240, 225, 0.55);
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  animation: steam 3s ease-in-out infinite;
+}
+
+.steam path:nth-child(2) {
+  animation-delay: 1.5s;
+}
+
+@keyframes steam {
+  0% { opacity: 0; transform: translateY(6px); }
+  40% { opacity: 1; }
+  100% { opacity: 0; transform: translateY(-10px); }
+}
+
+/* Sleeping cat on the rug (positioned and sized by main.js from the 3D floor) */
+.cat {
+  position: absolute;
+  z-index: 3;
+  visibility: hidden; /* until main.js has placed it */
+  pointer-events: none;
+  transform: translate(-50%, -88%); /* anchor at its feet */
+  overflow: visible;
+}
+
+.cat .zzz {
+  font-family: var(--font-marker);
+  font-size: 13px;
+  fill: #f3e2c8;
+  animation: snooze 3.2s ease-in-out infinite;
+}
+
+.cat .zzz:nth-of-type(2) {
+  animation-delay: 1.6s;
+}
+
+@keyframes snooze {
+  0% { opacity: 0; transform: translate(0, 0); }
+  30% { opacity: 1; }
+  100% { opacity: 0; transform: translate(8px, -14px); }
+}
+
+/* Darker corners, so the room feels lit from the middle (sits over the PC too) */
+.vignette {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  pointer-events: none;
+  background: radial-gradient(ellipse 75% 70% at 50% 50%, transparent 45%, rgba(15, 8, 5, 0.6));
+}
+
 .intro {
-  position: relative;
-  z-index: 2; /* above the canvas */
-  margin-top: 2.5em;
-  padding: 0 16px;
+  position: absolute;
+  z-index: 1; /* on the wall, behind the 3D desk and PC */
+  left: 50%;
+  top: 20vh;
+  transform: translateX(-50%); /* main.js sizes the card itself with zoom */
   text-align: center;
-  pointer-events: none; /* let drags reach the canvas; re-enabled on the button */
+  pointer-events: none; /* only the card itself is interactive */
+}
+
+/* A big yellow post-it, pinned to the cork board */
+.intro-card {
+  position: relative;
+  pointer-events: auto;
+  width: 440px; /* design size; scaled with the room by main.js */
+  padding: 20px 26px 18px;
+  border-radius: 2px 2px 4px 18px / 2px 2px 4px 10px; /* slight curl in one corner */
+  background: linear-gradient(170deg, #fff7b8, #ffeb8a);
+  box-shadow: 3px 7px 14px rgba(20, 10, 0, 0.5), 1px 2px 3px rgba(20, 10, 0, 0.3); /* lifts off the cork */
+  transform: rotate(-1.5deg);
+  animation: card-pop 0.5s cubic-bezier(0.2, 1.4, 0.4, 1) backwards; /* "backwards": no lingering GPU layer afterwards, so text stays sharp */
+}
+
+/* Small pink note stuck on the post-it's corner, with an arrow down to the PC */
+.spin-note {
+  position: absolute;
+  left: 61%; /* right of the monitor, so a spinning PC never hides most of it */
+  bottom: -40px; /* keep in sync with WALL.noteDrop in main.js */
+  padding: 4px 8px 3px;
+  white-space: nowrap; /* keep "spin me!" on one line */
+  border-radius: 1px 1px 2px 10px / 1px 1px 2px 6px;
+  background: linear-gradient(170deg, #ffd3de, #f7b4c5);
+  box-shadow: 2px 6px 10px rgba(20, 10, 0, 0.5), 1px 1px 2px rgba(20, 10, 0, 0.3);
+  font-family: var(--font-hand);
+  font-size: 17px;
+  line-height: 1;
+  text-align: center;
+  color: #2f2622;
+  /* A slight crooked tilt (about 3° clockwise overall, after the post-it's -1.5°). */
+  transform: rotate(4.5deg);
+  pointer-events: none;
+}
+
+/* Arrow drawn in dark pen right on the pink note, curving down toward the PC */
+.spin-arrow {
+  display: block;
+  width: 2.2em;
+  margin: 2px auto 0;
+  fill: none;
+  stroke: #2f2622;
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* Push pin */
+.intro-card::before {
+  content: '';
+  position: absolute;
+  top: -8px;
+  left: 50%;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #fff 0 14%, #ef6f6c 32%, #c94b4a);
+  transform: translateX(-50%);
+  box-shadow: 2px 3px 3px rgba(0, 0, 0, 0.3);
+}
+
+@keyframes card-pop {
+  from { transform: translateY(12px) rotate(-1.5deg) scale(0.95); opacity: 0; }
 }
 
 .intro h1 {
   margin: 0;
-  font-size: clamp(2.4rem, 7vw, 4rem);
-  font-weight: 300;
-  line-height: 1.1;
+  font-family: var(--font-marker);
+  font-size: 46px;
+  font-weight: 700;
+  line-height: 1;
+  white-space: nowrap; /* keep the wave on the same line */
+  color: var(--pencil);
 }
 
 .accent {
@@ -70,48 +370,75 @@ body {
   font-weight: 500;
 }
 
+/* Written in blue pen on the post-it */
 .intro .accent {
-  color: var(--landing-accent);
+  color: var(--pen-blue);
+  font-weight: 700;
+}
+
+/* Gaegu's apostrophe has wide side bearings; pull "i'm" together */
+.apostrophe {
+  margin: 0 -0.14em 0 -0.06em;
+}
+
+/* A friendly wave every few seconds */
+.wave {
+  display: inline-block;
+  width: 1.35em; /* matches the drawing's 68×58 proportions */
+  height: 1.15em;
+  margin-left: -0.12em; /* sit snug against "dillon" */
+  vertical-align: -0.2em;
+  overflow: visible;
+  transform-origin: 50% 90%; /* pivot at the wrist */
+  animation: wave 3.5s ease-in-out 1s infinite;
+}
+
+@keyframes wave {
+  0%, 60%, 100% { transform: rotate(0deg); }
+  10%, 30% { transform: rotate(16deg); }
+  20%, 40% { transform: rotate(-8deg); }
 }
 
 .subtitle {
-  margin: 0.5em 0 1.4em;
-  color: var(--landing-muted);
-  font-size: clamp(1rem, 2.4vw, 1.3rem);
-  font-weight: 300;
+  margin: 0.4em 0 1em;
+  font-family: var(--font-hand);
+  font-size: 17px;
+  color: #5e5040;
 }
 
-/* Glassy button that glows softly against the night background */
+/* A hand-drawn, wobbly pen outline, like someone doodled a button on the post-it */
 .pill-button {
-  pointer-events: auto;
-  padding: 0.75em 1.6em;
-  border: 1.5px solid rgba(174, 185, 220, 0.45);
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.07);
-  backdrop-filter: blur(6px);
-  box-shadow: 0 0 0 rgba(108, 178, 255, 0);
-  font-family: var(--font-body);
-  font-weight: 400;
-  font-size: 0.95rem;
-  letter-spacing: 0.02em;
-  color: var(--landing-text);
+  padding: 0.35em 1.1em 0.45em;
+  border: 2.5px solid var(--pen-blue);
+  border-radius: 255px 18px 225px 18px / 18px 225px 18px 255px;
+  background: transparent;
+  font-family: var(--font-hand);
+  font-size: 17px;
+  color: var(--pen-blue);
   cursor: pointer;
-  transition: background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+  transition: transform 0.15s ease, background 0.15s ease;
 }
 
 .pill-button:hover {
-  transform: translateY(-1px);
-  border-color: var(--landing-accent);
-  background: rgba(43, 125, 233, 0.18);
-  box-shadow: 0 0 18px rgba(43, 125, 233, 0.45);
+  transform: rotate(-1.5deg) scale(1.04);
+  background: rgba(36, 86, 201, 0.08);
 }
 
 .pill-button:active {
-  transform: translateY(1px);
+  transform: scale(0.98);
 }
 
 .pill-button:focus:not(:focus-visible) {
   outline: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bulb ellipse,
+  .steam path,
+  .wave,
+  .intro-card {
+    animation: none;
+  }
 }
 
 /* ===================== View switching ===================== */
