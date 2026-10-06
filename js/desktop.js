@@ -13,6 +13,8 @@ const clock = document.getElementById("tray-clock");
 
 const appsById = new Map(apps.map((app) => [app.id, app]));
 const WINDOW_MARGIN = 16; // minimum gap between a new window and the screen edge
+const MIN_WIDTH = 260;
+const MIN_HEIGHT = 160;
 
 // ---------------------------------------------------------------------------
 // Window manager state. Each open window has one entry; the DOM is synced
@@ -102,6 +104,7 @@ function createWindow(app) {
       </div>
     </header>
     <div class="window-body">${app.render()}</div>
+    <div class="resize-handle" aria-hidden="true"></div>
   `;
 
   // Size and cascade new windows so they don't stack exactly on top of each other.
@@ -130,6 +133,7 @@ function createWindow(app) {
     if (!e.target.closest(".title-controls")) toggleMaximize(app.id);
   });
   makeDraggable(el, titleBar, app.id);
+  makeResizable(el, el.querySelector(".resize-handle"), app.id);
 
   const taskButton = document.createElement("button");
   taskButton.type = "button";
@@ -153,31 +157,54 @@ function createWindow(app) {
   });
 }
 
+const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
+
+// Captures the pointer on `handle` and calls onMove for every move until it's released.
+// Pointer events cover mouse, touch, and pen alike.
+function trackPointer(handle, e, onMove) {
+  e.preventDefault();
+  handle.setPointerCapture(e.pointerId);
+  const onUp = () => {
+    handle.removeEventListener("pointermove", onMove);
+    handle.removeEventListener("pointerup", onUp);
+    handle.removeEventListener("pointercancel", onUp);
+  };
+  handle.addEventListener("pointermove", onMove);
+  handle.addEventListener("pointerup", onUp);
+  handle.addEventListener("pointercancel", onUp);
+}
+
 // Drag a window by its title bar, keeping at least part of it on screen.
 function makeDraggable(el, handle, id) {
   handle.addEventListener("pointerdown", (e) => {
     if (e.button !== 0 || e.target.closest(".title-controls") || windows.get(id).maximized) return;
-    e.preventDefault();
-    handle.setPointerCapture(e.pointerId);
-
     const area = windowLayer.getBoundingClientRect();
     const startX = e.clientX - el.offsetLeft;
     const startY = e.clientY - el.offsetTop;
 
-    const onMove = (ev) => {
-      const left = Math.min(Math.max(ev.clientX - startX, 80 - el.offsetWidth), area.width - 80);
-      const top = Math.min(Math.max(ev.clientY - startY, 0), area.height - 30);
-      el.style.left = `${left}px`;
-      el.style.top = `${top}px`;
-    };
-    const onUp = () => {
-      handle.removeEventListener("pointermove", onMove);
-      handle.removeEventListener("pointerup", onUp);
-      handle.removeEventListener("pointercancel", onUp);
-    };
-    handle.addEventListener("pointermove", onMove);
-    handle.addEventListener("pointerup", onUp);
-    handle.addEventListener("pointercancel", onUp);
+    trackPointer(handle, e, (ev) => {
+      el.style.left = `${clamp(ev.clientX - startX, 80 - el.offsetWidth, area.width - 80)}px`;
+      el.style.top = `${clamp(ev.clientY - startY, 0, area.height - 30)}px`;
+    });
+  });
+}
+
+// Resize a window from its bottom-right corner handle, without growing past the screen edge.
+function makeResizable(el, handle, id) {
+  handle.addEventListener("pointerdown", (e) => {
+    if (e.button !== 0 || windows.get(id).maximized) return;
+    const area = windowLayer.getBoundingClientRect();
+    const startX = e.clientX;
+    const startY = e.clientY;
+    const startWidth = el.offsetWidth;
+    const startHeight = el.offsetHeight;
+
+    trackPointer(handle, e, (ev) => {
+      const maxWidth = Math.max(MIN_WIDTH, area.width - el.offsetLeft);
+      const maxHeight = Math.max(MIN_HEIGHT, area.height - el.offsetTop);
+      el.style.width = `${clamp(startWidth + ev.clientX - startX, MIN_WIDTH, maxWidth)}px`;
+      el.style.height = `${clamp(startHeight + ev.clientY - startY, MIN_HEIGHT, maxHeight)}px`;
+    });
   });
 }
 

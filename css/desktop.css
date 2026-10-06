@@ -82,7 +82,6 @@
   min-width: 260px;
   min-height: 160px;
   overflow: hidden;
-  resize: both; /* drag the bottom-right corner to resize */
   border: 3px solid var(--xp-frame);
   border-top: 0;
   border-radius: var(--window-radius) var(--window-radius) 6px 6px;
@@ -103,7 +102,10 @@
   height: auto !important;
   border-radius: 0;
   box-shadow: none;
-  resize: none;
+}
+
+.window.maximized .resize-handle {
+  display: none;
 }
 
 .title-bar {
@@ -213,6 +215,27 @@
 
 .window.inactive .ctrl {
   filter: saturate(0.4) brightness(1.2);
+}
+
+/* Bottom-right grip: drag to resize (works with mouse and touch) */
+.resize-handle {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 18px;
+  height: 18px;
+  cursor: nwse-resize;
+  touch-action: none;
+  background:
+    linear-gradient(135deg, transparent 0 55%, #9aa6b8 55% 62%, transparent 62% 72%, #9aa6b8 72% 79%, transparent 79%);
+}
+
+/* Bigger target for fingers */
+@media (pointer: coarse) {
+  .resize-handle {
+    width: 30px;
+    height: 30px;
+  }
 }
 
 /* ===================== Window content ===================== */
