@@ -85,7 +85,7 @@ const experience = [
     role: "Summer Camp Counselor",
     org: "Goodsports! Youth Camp",
     dates: "Jun 2021 – Aug 2023",
-    place: "Cook County, IL",
+    place: "Evanston, IL",
     bullets: [
       "Co-managed a group of 20+ kids, keeping camp organized, safe, and fun.",
       "Taught foundational sports skills with a focus on teamwork and sportsmanship.",
@@ -94,7 +94,7 @@ const experience = [
 ];
 
 const education = [
-  { school: "The University of Kansas", detail: "Bachelor of Engineering, Computer Engineering", dates: "2025 – 2029" },
+  { school: "The University of Kansas", detail: "Bachelor of Science, Computer Engineering", dates: "2025 – 2029" },
   { school: "Evanston Township High School", detail: "", dates: "2021 – 2025" },
 ];
 
@@ -262,7 +262,7 @@ export const apps = [
       <ul>
         <li>Click the <strong>icons</strong> on the left to open apps like Projects and Resume.</li>
         <li>Open the <strong>start</strong> menu (bottom left) for quick links, or <strong>Log Off</strong> to go back to the 3D PC.</li>
-        <li>Drag windows by their title bar, <strong>resize</strong> them from the bottom-right corner, or hit ▢ to make them full-screen.</li>
+        <li>Drag windows by their title bar, <strong>resize</strong> them from the bottom-right corner, hit ▢ to make them full-screen, or ⮽ to close them.</li>
         <li>Use the <strong>taskbar</strong> to switch between windows or minimize them.</li>
       </ul>
       <p class="muted">You can reopen this anytime from the Tips icon.</p>
