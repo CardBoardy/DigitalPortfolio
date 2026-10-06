@@ -118,18 +118,20 @@ export const apps = [
       <h2>hi! i'm <span class="accent">dillon</span></h2>
       <p class="lead">${profile.tagline}</p>
       <p>
-        I'm a computer engineering student at the University of Kansas (class of 2029), originally
-        from Evanston, Illinois. I like understanding how things work all the way down: from
-        repairing and setting up computers, to programming in C and getting hardware to talk over UART.
+        I grew up in Evanston, just outside Chicago, and these days I split my time between there and
+        Lawrence, Kansas, where I'm studying computer engineering at KU.
       </p>
       <p>
-        I love hackathons: <em>Decryption Dungeon</em> won 1st place at the LexisNexis Chicago Regional Hackathon,
-        and I took runner-up at HackKU with <em>Disco-Bot</em>, a dancing robot.
+        I love to program, and Python is the language I always reach for. But my favorite part of
+        engineering is the moment code leaves the screen. The first time a motor spins or a light turns
+        on because of something I wrote never gets old. Figuring out how to make hardware and software
+        work together is what I could happily spend all day doing.
       </p>
       <p>
-        This semester I'm a Supplemental Instruction Leader for EECS 168, where I run weekly study
-        sessions and help students get comfortable solving problems on their own.
+        I like the hardware side on its own too. There's something really satisfying about opening up a
+        broken computer, figuring out what's wrong, and bringing it back to life.
       </p>
+      <p>Take a look around! My projects are the best way to see what I'm into.</p>
     `,
   },
   {
