@@ -6,7 +6,7 @@ import { openApp, closeAllApps, setLogOffHandler } from "./desktop.js";
 // ---------------------------------------------------------------------------
 // Config
 // ---------------------------------------------------------------------------
-const MODEL_PATH = "../models/pc/scene.gltf";
+const MODEL_PATH = "models/pc/scene.gltf";
 const FRAMING_FACTOR = 0.7;         // initial camera distance as a fraction of model size (smaller = closer)
 const MODEL_DROP = 0.08;            // how far below center the model sits, as a fraction of its size
 

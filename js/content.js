@@ -20,7 +20,7 @@ const projects = [
   {
     name: "Decryption Dungeon",
     award: "🏆 1st Place · LexisNexis Chicago Regional Hackathon",
-    image: "../assets/projects/decryption-dungeon.jpg",
+    image: "assets/projects/decryption-dungeon.jpg",
     description: "A story-driven game that teaches kids cybersecurity: help a wizard by cracking real ciphers hidden in his spellbook.",
     highlights: [
       "Built the game engine from scratch in Pygame, with layered rendering, a typewriter dialogue system, and cinematic page-flip transitions.",
@@ -36,7 +36,7 @@ const projects = [
   {
     name: "Disco-Bot",
     award: "🥈 Runner-Up · HackKU",
-    image: "../assets/projects/disco-bot.jpg",
+    image: "assets/projects/disco-bot.jpg",
     description: "A conversational dancing robot built in a weekend: talk to it, and it answers with AI-generated speech and dance moves.",
     highlights: [
       "Laptop handles voice + Google Gemini AI in Python, then sends commands over WiFi to a Flask server on a Raspberry Pi 5.",
