@@ -579,9 +579,9 @@
 }
 
 .start-copyright {
-  font-size: 0.72rem;
-  color: #dce8fb;
-  opacity: 0.85;
+  font-size: 0.78rem;
+  color: #ffffff;
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.35);
 }
 
 .credits-button {
