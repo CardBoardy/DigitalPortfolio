@@ -30,6 +30,7 @@ const projects = [
     ],
     tech: ["Python", "Pygame", "Cryptography", "Game design"],
     links: [
+      { type: "play", url: "https://cardboardy.github.io/Decryption-Dungeon/" },
       { type: "video", url: "https://www.youtube.com/watch?v=VqNpzwEF1ZA" },
       { type: "code", url: "https://github.com/CardBoardy/Decryption-Dungeon" },
     ],
@@ -102,6 +103,7 @@ const education = [
 const LINK_BUTTONS = {
   video: { label: "Watch demo", icon: `<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2.5v11l9-5.5z" fill="currentColor"/></svg>` },
   code: { label: "View code", icon: `<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M5.5 4L1.5 8l4 4M10.5 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>` },
+  play: { label: "Play here", icon: `<svg viewBox="0 0 16 16" aria-hidden="true"><rect x="1.5" y="4" width="13" height="8" rx="3" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M5 6.5v3M3.5 8h3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><circle cx="10.5" cy="7.2" r="0.9" fill="currentColor"/><circle cx="12" cy="8.8" r="0.9" fill="currentColor"/></svg>` },
 };
 const linkButton = ({ type, url }) =>
   `<a class="link-button ${type}" href="${url}" target="_blank" rel="noopener">${LINK_BUTTONS[type].icon}${LINK_BUTTONS[type].label}</a>`;
