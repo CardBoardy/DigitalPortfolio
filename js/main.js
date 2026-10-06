@@ -30,10 +30,6 @@ const learnMoreButton = document.getElementById("learn-more");
 const desktop = document.getElementById("desktop");
 const fadeOverlay = document.getElementById("fade-overlay");
 
-for (const el of document.querySelectorAll(".copyright-year")) {
-  el.textContent = new Date().getFullYear();
-}
-
 // ---------------------------------------------------------------------------
 // Scene setup
 // ---------------------------------------------------------------------------

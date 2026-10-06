@@ -226,6 +226,7 @@ for (const app of apps.filter((a) => a.showOnDesktop !== false)) {
 let onLogOff = () => {};
 
 startMenu.querySelector(".start-user-name").textContent = profile.name;
+startMenu.querySelector(".start-copyright").textContent = `© ${new Date().getFullYear()} ${profile.name}`;
 startMenu.querySelector(".start-apps").innerHTML = apps
   .filter((app) => app.showOnDesktop !== false)
   .map((app) => `<li><button type="button" data-app="${app.id}">${icons[app.icon]}<span>${app.title}</span></button></li>`)
