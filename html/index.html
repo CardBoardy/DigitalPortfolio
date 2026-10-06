@@ -1,23 +1,61 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
-    <title>My Website</title>
-    <link rel="stylesheet" href="css/style.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Dillon Woods</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600&family=Roboto+Mono:wght@500;700&display=swap" />
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="../css/desktop.css" />
   </head>
   <body>
-    <header>
-      <h1>hi, i'm dillon</h1>
-    </header>
-
-    <main>
+    <!-- ===== Landing: 3D PC ===== -->
+    <div id="landing">
       <div id="container3D"></div>
-      <!-- use a real button and give it the id/class the script expects -->
-      <button id="learn-more" class="b1">
-        click here to learn more about me
-      </button>
-    </main>
 
-    <script type="module" src="js/main.js"></script>
+      <header class="intro">
+        <h1>hi! <span class="accent">i'm dillon</span></h1>
+        <p class="subtitle">computer engineering student @ the university of kansas</p>
+        <button id="learn-more" class="pill-button" type="button">click here to learn more about me</button>
+      </header>
+    </div>
+
+    <!-- ===== Desktop: XP-style shell ===== -->
+    <div id="desktop" hidden>
+      <nav id="desktop-icons" aria-label="Desktop"></nav>
+      <div id="window-layer"></div>
+
+      <div id="start-menu" hidden>
+        <div class="start-header">
+          <span class="start-avatar" aria-hidden="true">D</span>
+          <span class="start-user-name"></span>
+        </div>
+        <div class="start-columns">
+          <ul class="start-apps"></ul>
+          <ul class="start-links"></ul>
+        </div>
+        <div class="start-footer">
+          <button type="button" class="log-off">
+            <span class="log-off-icon" aria-hidden="true">⏻</span> Log Off
+          </button>
+        </div>
+      </div>
+
+      <footer id="taskbar">
+        <button id="start-button" type="button" aria-haspopup="true" aria-expanded="false">
+          <span class="start-flag" aria-hidden="true"></span>start
+        </button>
+        <div id="task-list"></div>
+        <div id="tray">
+          <time id="tray-clock"></time>
+        </div>
+      </footer>
+    </div>
+
+    <div id="fade-overlay" class="fade-overlay" aria-hidden="true"></div>
+
+    <script type="module" src="../js/main.js"></script>
   </body>
 </html>
