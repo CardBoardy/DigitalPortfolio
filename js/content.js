@@ -3,7 +3,7 @@
 
 export const profile = {
   name: "Dillon Woods",
-  tagline: "computer engineering student @ the university of kansas",
+  tagline: "computer science student @ the university of kansas",
   // Split so spam bots scanning the page source don't find a ready-made address.
   email: ["dillonw1128", "gmail.com"].join("@"),
   linkedin: "https://www.linkedin.com/in/dillon-woods-ce/",
@@ -95,7 +95,7 @@ const experience = [
 ];
 
 const education = [
-  { school: "The University of Kansas", detail: "Bachelor of Science, Computer Engineering", dates: "2025 – 2029" },
+  { school: "The University of Kansas", detail: "Bachelor of Science, Computer Science", dates: "2025 – 2029" },
   { school: "Evanston Township High School", detail: "", dates: "2021 – 2025" },
 ];
 
@@ -149,7 +149,7 @@ export const apps = [
       <p class="lead">${profile.tagline}</p>
       <p>
         I grew up in Evanston, just outside Chicago, and these days I split my time between there and
-        Lawrence, Kansas, where I'm studying computer engineering at KU.
+        Lawrence, Kansas, where I'm studying computer science at KU.
       </p>
       <p>
         I love to program, and Python is the language I always reach for. But my favorite part of
